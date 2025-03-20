@@ -107,6 +107,10 @@ release: $(DIST) release-linux release-darwin release-windows release-reduce rel
 $(DIST):
 	mkdir -p $(DIST)
 
+.PHONY: build-single
+build-single:
+	GOARCH=$(GOARCH) GOOS=$(GOOS) $(GOBUILD) -v -tags '$(TAGS)' -ldflags '$(LDFLAGS)' -o $(BIN)/$(NAME) ./cmd/$(NAME)
+
 .PHONY: release-linux
 release-linux: $(DIST) \
 	$(DIST)/$(EXECUTABLE)-$(OUTPUT)-linux-386 \

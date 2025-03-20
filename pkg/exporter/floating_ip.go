@@ -28,7 +28,7 @@ func NewFloatingIPCollector(logger *slog.Logger, client *hcloud.Client, failures
 		failures.WithLabelValues("floating_ip").Add(0)
 	}
 
-	labels := []string{"id", "server", "location", "type", "ip"}
+	labels := []string{"id", "server", "location", "type", "ip", "name"}
 	return &FloatingIPCollector{
 		client:   client,
 		logger:   logger.With("collector", "floating-ip"),
@@ -95,6 +95,7 @@ func (c *FloatingIPCollector) Collect(ch chan<- prometheus.Metric) {
 			ip.HomeLocation.Name,
 			string(ip.Type),
 			ip.IP.String(),
+			ip.Name,
 		}
 
 		ch <- prometheus.MustNewConstMetric(
