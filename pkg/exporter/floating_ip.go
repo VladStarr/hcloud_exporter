@@ -81,17 +81,17 @@ func (c *FloatingIPCollector) Collect(ch chan<- prometheus.Metric) {
 	for _, ip := range ips {
 		var (
 			active float64
-			name   string
+			server string
 		)
 
 		if ip.Server != nil {
 			active = 1.0
-			name = ip.Server.Name
+			server = strconv.FormatInt(ip.Server.ID, 10)
 		}
 
 		labels := []string{
 			strconv.FormatInt(ip.ID, 10),
-			name,
+			server,
 			ip.HomeLocation.Name,
 			string(ip.Type),
 			ip.IP.String(),
